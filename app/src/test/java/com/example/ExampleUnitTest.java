@@ -1,4 +1,4 @@
-package com.retrofit2;
+package com.example;
 
 import org.junit.Test;
 
