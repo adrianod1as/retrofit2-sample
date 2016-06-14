@@ -1,5 +1,7 @@
 package com.example.api;
 
+import com.example.model.Classroom;
+import com.example.model.School;
 import com.example.model.User;
 
 import java.io.IOException;
@@ -19,7 +21,7 @@ import retrofit2.http.Path;
  */
 public class RestClient {
 
-    private static final String BASE_URL = "http://10.0.3.2:8081/Restful-API-TAG/api/TagService/";
+    private static final String BASE_URL = "http://10.0.3.2:8080/Restful-API-TAG/api/TagService/";
     private static TAGApiInterface tagApiInterface;
 
     public static TAGApiInterface getClient() {
@@ -51,6 +53,12 @@ public class RestClient {
 
         @GET("getCredentials/{username}/{password}")
         Call<ArrayList<User>> getCredentials(@Path("username") String username, @Path("password") String password);
+
+        @GET("getSchools")
+        Call<ArrayList<School>> getSchools();
+
+        @GET("getClassroomsBySchoolInep/{school_inep_fk}")
+        Call<ArrayList<Classroom>> getClassroomsBySchoolInep(@Path("school_inep_fk") String school_inep_fk);
     }
 
 }
