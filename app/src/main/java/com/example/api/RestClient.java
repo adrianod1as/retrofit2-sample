@@ -2,6 +2,7 @@ package com.example.api;
 
 import com.example.model.Classroom;
 import com.example.model.School;
+import com.example.model.Student;
 import com.example.model.User;
 
 import java.io.IOException;
@@ -59,6 +60,18 @@ public class RestClient {
 
         @GET("getClassroomsBySchoolInep/{school_inep_fk}")
         Call<ArrayList<Classroom>> getClassroomsBySchoolInep(@Path("school_inep_fk") String school_inep_fk);
+
+        @GET("getDisciplinesByClassID/{id}")
+        Call<ArrayList<Classroom>> getDisciplinesByClassID(@Path("id") String id);
+
+        @GET("getStudentsPerClassroom/{classroom_id}")
+        Call<ArrayList<Student>> getStudentsPerClassroom(@Path("classroom_id") String classroom_id);
+
+        @GET("getStudents")
+        Call<ArrayList<Student>> getStudents();
+
+        @GET("getStudents/{inep_id}")
+        Call<ArrayList<Student>> getStudents(@Path("inep_id") String inep_id);
     }
 
 }

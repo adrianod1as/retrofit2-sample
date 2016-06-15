@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         }
                     } else if (rbTeacher.isChecked()) {
                         progressDialog.dismiss();
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
                         Toast.makeText(LoginActivity.this, "Don't work... Yet!", Toast.LENGTH_SHORT).show();
                     } else if (rbFather.isChecked()) {
                         progressDialog.dismiss();

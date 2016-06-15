@@ -3,6 +3,7 @@ package com.example.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,11 +13,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.R;
-import com.example.activities.SeeClassPerSchoolActivity;
-import com.example.adapters.SchoolAdapter;
+import com.example.adapters.ClassroomAdapter;
+import com.example.adapters.StudentAdapter;
 import com.example.api.RestClient;
 import com.example.interfaces.RecyclerViewOnClickListenerHack;
-import com.example.model.School;
+import com.example.model.Classroom;
+import com.example.model.Student;
 
 import java.util.ArrayList;
 
@@ -27,47 +29,49 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SchoolFragment extends Fragment implements RecyclerViewOnClickListenerHack {
+public class StudentFragment extends Fragment implements RecyclerViewOnClickListenerHack{
 
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
 
-    private SchoolAdapter mSchoolAdapter;
+    private ArrayList<Student> mStudents;
+    private StudentAdapter mStudentAdapter;
 
-    private ArrayList<School> mSchoolList;
-
-
-    public SchoolFragment() {
+    public StudentFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_school, container, false);
+        // Inflate the layout for this fragment
+        final View view = inflater.inflate(R.layout.fragment_student, container, false);
 
         try {
-            mRecyclerView = (RecyclerView) view.findViewById(R.id.rvSchoolList);
+            mRecyclerView = (RecyclerView) view.findViewById(R.id.rvStudentList);
             mLinearLayoutManager = new LinearLayoutManager(getActivity());
             mRecyclerView.setHasFixedSize(true);
 
             mLinearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             mRecyclerView.setLayoutManager(mLinearLayoutManager);
 
-            RestClient.TAGApiInterface tagApiInterface = RestClient.getClient();
-            Call<ArrayList<School>> mListCall = tagApiInterface.getSchools();
-            mListCall.enqueue(new Callback<ArrayList<School>>() {
-                @Override
-                public void onResponse(Call<ArrayList<School>> call, Response<ArrayList<School>> response) {
-                    mSchoolList = response.body();
+            Intent idIntent = getActivity().getIntent();
+            String classID = idIntent.getStringExtra("classID");
 
-                    mSchoolAdapter = new SchoolAdapter(mSchoolList, getContext());
-                    mSchoolAdapter.setRecyclerViewOnClickListenerHack(SchoolFragment.this);
-                    mRecyclerView.setAdapter(mSchoolAdapter);
+            RestClient.TAGApiInterface tagApiInterface = RestClient.getClient();
+            Call<ArrayList<Student>> mListCall = tagApiInterface.getStudentsPerClassroom(classID);
+            mListCall.enqueue(new Callback<ArrayList<Student>>() {
+                @Override
+                public void onResponse(Call<ArrayList<Student>> call, Response<ArrayList<Student>> response) {
+                    mStudents = response.body();
+
+                    mStudentAdapter = new StudentAdapter(mStudents, getContext());
+                    mStudentAdapter.setRecyclerViewOnClickListenerHack(StudentFragment.this);
+                    mRecyclerView.setAdapter(mStudentAdapter);
                 }
 
                 @Override
-                public void onFailure(Call<ArrayList<School>> call, Throwable t) {
+                public void onFailure(Call<ArrayList<Student>> call, Throwable t) {
                     t.printStackTrace();
                 }
             });
@@ -80,9 +84,6 @@ public class SchoolFragment extends Fragment implements RecyclerViewOnClickListe
 
     @Override
     public void onClickListener(View v, int position) {
-        String schoolInepID = mSchoolAdapter.returnSchoolInepID(position);
 
-        getActivity().startActivity(new Intent(getActivity(), SeeClassPerSchoolActivity.class)
-                    .putExtra("schoolInepID", schoolInepID));
     }
 }

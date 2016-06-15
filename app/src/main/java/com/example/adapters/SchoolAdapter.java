@@ -1,10 +1,13 @@
 package com.example.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.R;
@@ -62,6 +65,8 @@ public class SchoolAdapter extends RecyclerView.Adapter<SchoolAdapter.SchoolView
             super(itemView);
 
             tvNameSchool = (TextView) itemView.findViewById(R.id.tvNameSchool);
+
+            tvNameSchool.setOnClickListener(this);
         }
 
         @Override

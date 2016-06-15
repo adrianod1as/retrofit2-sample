@@ -8,6 +8,7 @@ public class Classroom {
     private String register_type;
     private String school_inep_fk;
     private String inep_id;
+    private String id;
     private String name;
     private String pedagogical_mediation_type;
     private String initial_hour;
@@ -97,6 +98,14 @@ public class Classroom {
 
     public void setInep_id(String inep_id) {
         this.inep_id = inep_id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
