@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.R;
 import com.example.api.RestClient;
+import com.example.extra.SaveSharedPreference;
 import com.example.model.User;
 import com.google.gson.Gson;
 
@@ -92,6 +93,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                                     //Log.i("TAG", "Status code = " + response.code());
                                                     ArrayList<User> user = response.body();
                                                     if (response.isSuccessful() && response.body().size() != 0) {
+                                                        SaveSharedPreference.setUserName(LoginActivity.this, edtUsername.getText().toString() );
                                                         startActivity(new Intent(LoginActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP));
                                                         //Log.i("TAG", "response = " + new Gson().toJson(user));
                                                     } else {

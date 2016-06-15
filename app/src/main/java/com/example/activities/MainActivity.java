@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragment_container, new SchoolFragment()).addToBackStack(null).commit();
     }
@@ -44,8 +46,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        //Name of User
+        MenuItem mItem = menu.findItem(R.id.username);
+        mItem.setTitle(SaveSharedPreference.getUserName(MainActivity.this));
+
         return super.onCreateOptionsMenu(menu);
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
